@@ -1,0 +1,30 @@
+{
+  "name": "jsonapi-schema",
+  "version": "0.0.1",
+  "description": "Simple JSON schemas that serialize to JSONAPI",
+  "main": "index.js",
+  "scripts": {
+    "test": "tape test/*.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/jesseditson/jsonapi-schema.git"
+  },
+  "keywords": [
+    "jsonapi",
+    "schema",
+    "model"
+  ],
+  "author": "Jesse Ditson <jesse.ditson@gmail.com>",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/jesseditson/jsonapi-schema/issues"
+  },
+  "homepage": "https://github.com/jesseditson/jsonapi-schema#readme",
+  "dependencies": {
+    "pluralize": "^3.0.0"
+  },
+  "devDependencies": {
+    "tape": "^4.6.0"
+  }
+}
