@@ -1,5 +1,6 @@
 var path = require('path')
 var pluralize = require('pluralize')
+var loadSchemas = require('./lib/loadSchemas')
 
 /**
  * Public
@@ -70,6 +71,15 @@ module.exports = function JSONAPI(schemas, baseURL) {
     }
   }
 }
+
+/**
+ * loadSchemas
+ * load schema files from a folder and return a dictionary of schemas
+ *
+ * @param {string} schemasFolder   A path to a folder to load schemas from
+ * @return {object}                A dictionary of schemas
+ */
+module.exports.loadSchemas = loadSchemas
 
 /**
  * Private
