@@ -22,6 +22,7 @@
   },
   "homepage": "https://github.com/jesseditson/jsonapi-schema#readme",
   "dependencies": {
+    "fs-readdir-recursive": "^1.0.0",
     "pluralize": "^3.0.0"
   },
   "devDependencies": {
