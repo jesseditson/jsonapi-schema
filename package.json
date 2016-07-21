@@ -27,5 +27,8 @@
   },
   "devDependencies": {
     "tape": "^4.6.0"
+  },
+  "engines": {
+    "node": ">= 5.0.0"
   }
 }

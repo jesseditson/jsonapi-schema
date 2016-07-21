@@ -1,18 +1,16 @@
+/** @module jsonapi-schema */
 var path = require('path')
 var pluralize = require('pluralize')
 var loadSchemas = require('./lib/loadSchemas')
 
 /**
- * Public
- */
-
-/**
  * JSONAPI
  * Initialize a parser generator with a dictionary of schemas and a base URL.
  *
+ * @public
  * @param  {object} schemas  A dictionary of schemas that will be available at this endpoint
  * @param  {string} baseURL  A path to prepend to link URLs
- * @return {function}        A JSONAPIParser function for creating a parse method
+ * @return {JSONAPIParser}   A JSONAPIParser function for creating a parse method
  */
 module.exports = function JSONAPI(schemas, baseURL) {
   if (!schemas) throw new Error('You must provide a schema hash when instantiating JSONAPI.')
@@ -20,8 +18,10 @@ module.exports = function JSONAPI(schemas, baseURL) {
    * JSONAPIParser
    * call with a schema type to create a toJSONAPI function
    *
+   * @public
+   * @typedef {function} JSONAPIParser
    * @param {string} type      The name of the schema to parse JSON into
-   * @return {function}        A JSONAPIParser function for creating a parse method
+   * @return {toJSONAPI}       A JSONAPIParser function for creating a parse method
    */
   return function JSONAPIParser(type) {
     var schema = schemas[type]
@@ -30,12 +30,14 @@ module.exports = function JSONAPI(schemas, baseURL) {
      * toJSONAPI
      * Serialize an object to a JSONAPI-compatible response
      *
+     * @public
+     * @typedef {function} toJSONAPI
      * @param  {object} obj      Either a single object, or an array of flat objects from the database
      * @param  {object} info     Additional info to build the response with. Can contain the following keys:
      * - [included]    name:data pairs of flat objects from the databases to include in the response (if part of a relationship)
      * - [links]       Additional links to append to the `links` key
      * - [defaults]    Default key-value pairs to append to every returned item
-     * @return {object}          A JSONAPI-compatible object to send back to the client
+     * @return {object}        A JSONAPI-compatible object to send back to the client
      */
     return function toJSONAPI(obj, info) {
       info = info || {}
@@ -76,14 +78,13 @@ module.exports = function JSONAPI(schemas, baseURL) {
  * loadSchemas
  * load schema files from a folder and return a dictionary of schemas
  *
+ * @type {function}
+ * @public
+ * @static
  * @param {string} schemasFolder   A path to a folder to load schemas from
  * @return {object}                A dictionary of schemas
  */
 module.exports.loadSchemas = loadSchemas
-
-/**
- * Private
- */
 
 function applyTransform(obj, transform) {
   if (Array.isArray(obj)) {
