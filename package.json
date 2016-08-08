@@ -1,6 +1,6 @@
 {
   "name": "jsonapi-schema",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "description": "Simple JSON schemas that serialize to JSONAPI",
   "main": "index.js",
   "scripts": {
@@ -29,7 +29,14 @@
   },
   "browserify": {
     "transform": [
-      [ "babelify", { "presets": [ "es2015" ] } ]
+      [
+        "babelify",
+        {
+          "presets": [
+            "es2015"
+          ]
+        }
+      ]
     ]
   },
   "devDependencies": {
