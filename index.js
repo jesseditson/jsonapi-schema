@@ -100,10 +100,12 @@ function getRelationships(type, parent, included, schemas, baseURL, defaults) {
   return Object.keys(schema).reduce((o, p) => {
     var property = schema[p]
     if (property && property.relationship) {
-      o[p] = {
-        links: {
-          self: path.join(baseURL, parent.type, String(parent.id), 'relationships', p),
-          related: path.join(baseURL, parent.type, String(parent.id), p)
+      if (parent.id) {
+        o[p] = {
+          links: {
+            self: path.join(baseURL, parent.type, String(parent.id), 'relationships', p),
+            related: path.join(baseURL, parent.type, String(parent.id), p)
+          }
         }
       }
       if (property.relationship === 'belongsTo') {
@@ -141,12 +143,14 @@ function getRelationships(type, parent, included, schemas, baseURL, defaults) {
 function toJSONAPIData(type, obj, schema, baseURL, sparse) {
   if (!obj) return null
   var resp = {
-    type: type,
-    id: obj.id
+    type: type
   }
+  if (obj.id) resp.id = obj.id
   if (!sparse) {
-    resp.links = {
-      self: `${baseURL}/${type}/${obj.id}`
+    if (obj.id) {
+      resp.links = {
+        self: `${baseURL}/${type}/${obj.id}`
+      }
     }
     var atts = Object.keys(obj).filter(k => k !== 'id')
     if (atts.length) {
