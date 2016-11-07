@@ -1,0 +1,13 @@
+{
+  "name": "string",
+  "created_date": "date",
+  "updated_date": "date",
+  "attribute_groups": { "type": "targetingAttributeGroups", "relationship": "hasMany" },
+  "age_min": "number",
+  "age_max": "number",
+  "gender": "string",
+  "platform": "string",
+  "size": "number",
+  "account_id": "string",
+  "brand_id": "string"
+}

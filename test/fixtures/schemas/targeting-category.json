@@ -1,0 +1,4 @@
+{
+  "name": "string",
+  "parent_category": { "type": "targetingCategory", "relationship": "belongsTo" }
+}

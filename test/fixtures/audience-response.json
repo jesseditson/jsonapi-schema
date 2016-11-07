@@ -1,0 +1,37 @@
+{
+    "data": {
+        "name": null,
+        "created_date": null,
+        "updated_date": null,
+        "age_min": 13,
+        "age_max": 59,
+        "gender": "all",
+        "platform": "facebook",
+        "size": 30000000,
+        "account_id": "105102926328875",
+        "brand_id": "880",
+        "id": "23936"
+    },
+    "included": {
+        "targeting-attributes": [
+            {
+                "name": "Credit cards",
+                "platform_id": null,
+                "description": "",
+                "path": [
+                    "Business and industry",
+                    "Personal finance",
+                    "Credit cards"
+                ],
+                "type": "interests",
+                "last_updated": null,
+                "id": "6003369782940"
+            }
+        ],
+        "targeting-attribute-groups": [
+            {
+                "id": "ag-6003369782940"
+            }
+        ]
+    }
+}

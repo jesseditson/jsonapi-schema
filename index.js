@@ -1,6 +1,7 @@
 /** @module jsonapi-schema */
 var path = require('path')
 var pluralize = require('pluralize')
+var dasherize = require('dashify')
 var loadSchemas = require('./lib/loadSchemas')
 
 /**
@@ -94,20 +95,17 @@ function applyTransform(obj, transform) {
   }
 }
 
+function isEmpty(obj) {
+  return Array.isArray(obj) ? !obj.length : !obj;
+}
+
 function getRelationships(type, parent, included, schemas, baseURL, defaults) {
   var schema = schemas[type]
   if (!schema) throw new Error(`You included a ${type} object but no schema for it was found.`)
   return Object.keys(schema).reduce((o, p) => {
     var property = schema[p]
+    if (property && property.type) property.type = dasherize(property.type)
     if (property && property.relationship) {
-      if (parent.id) {
-        o[p] = {
-          links: {
-            self: path.join(baseURL, parent.type, String(parent.id), 'relationships', p),
-            related: path.join(baseURL, parent.type, String(parent.id), p)
-          }
-        }
-      }
       if (property.relationship === 'belongsTo') {
         var idKey = property.foreignKey || `${p}_id`
         var attributes = parent.attributes || {}
@@ -117,7 +115,10 @@ function getRelationships(type, parent, included, schemas, baseURL, defaults) {
           }
         }
         var itemId = attributes[idKey]
-        if (itemId) o[p].data = toJSONAPIData(property.type, { id: itemId }, null, baseURL, true)
+        if (itemId) {
+          o[p] = o[p] || {}
+          o[p].data = toJSONAPIData(property.type, { id: itemId }, null, baseURL, true)
+        }
       } else if (property.relationship === 'hasMany' && included && included[property.type]) {
         var includeType = property.type
         var foreignKey = property.foreignKey || `${pluralize(type, 1)}_id`
@@ -128,12 +129,19 @@ function getRelationships(type, parent, included, schemas, baseURL, defaults) {
           if (!throughSchema[throughKey].type) throw new Error(`${type} specified a ${p} relationship through the ${property.through} table, but the ${throughKey} property does not define a valid type.`)
           includeType = throughSchema[throughKey].type
         }
-        var items = included[includeType].filter(i => {
-          return i[foreignKey] === parent.id
-        })
-        o[p].data = applyTransform(items, i => {
-          return toJSONAPIData(property.type, { id: i.id }, null, baseURL, true)
-        })
+        var items = included[includeType]
+        if (!isEmpty(items)) {
+          o[p] = o[p] || {}
+          o[p].data = applyTransform(items, i => {
+            return toJSONAPIData(property.type, { id: i.id }, null, baseURL, true)
+          })
+        }
+      }
+      if (!isEmpty(o[p]) && parent.id !== undefined) {
+        o[p].links = {
+          self: path.join(baseURL, parent.type, String(parent.id), 'relationships', p),
+          related: path.join(baseURL, parent.type, String(parent.id), p)
+        }
       }
     }
     return o
@@ -145,9 +153,10 @@ function toJSONAPIData(type, obj, schema, baseURL, sparse) {
   var resp = {
     type: type
   }
-  if (obj.id) resp.id = obj.id
+  var hasId = obj.id !== undefined;
+  if (hasId) resp.id = obj.id
   if (!sparse) {
-    if (obj.id) {
+    if (hasId) {
       resp.links = {
         self: `${baseURL}/${type}/${obj.id}`
       }

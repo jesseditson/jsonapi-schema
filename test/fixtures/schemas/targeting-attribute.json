@@ -1,0 +1,9 @@
+{
+  "name": "string",
+  "platform_id": "string",
+  "description": "string",
+  "path": null,
+  "type": "string",
+  "last_updated": "date",
+  "category": { "type": "targetingCategory", "relationship": "belongsTo" }
+}

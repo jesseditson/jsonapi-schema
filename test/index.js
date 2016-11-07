@@ -47,16 +47,14 @@ test('turns a simple object to a JSONAPI compatible one', t => {
   t.equal(api.links.self, '/api/things', 'adds self link')
 })
 
-test('adds relationships when defined in the schema', t => {
-  t.plan(3)
+test('does not add relationship if no included items are passed', t => {
+  t.plan(1)
   var f = JSONAPI(schemas, '/api')('things')
   var api = f({
     id: 0,
     test: 'foo'
   })
-  t.equal(typeof api.data.relationships, 'object', 'creates a data relationships key')
-  t.equal(api.data.relationships.stuffs.links.self, '/api/things/0/relationships/stuffs', 'has a relationship self link')
-  t.equal(api.data.relationships.stuffs.links.related, '/api/things/0/stuffs', 'has a relationship related link')
+  t.notOk(api.data.relationships, 'does not define a relationships key')
 })
 
 test('adds relationships & data when defined in the schema and included', t => {
