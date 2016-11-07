@@ -1,6 +1,6 @@
 {
   "name": "jsonapi-schema",
-  "version": "0.1.3",
+  "version": "0.1.4",
   "description": "Simple JSON schemas that serialize to JSONAPI",
   "main": "index.js",
   "scripts": {
