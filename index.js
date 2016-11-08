@@ -38,6 +38,7 @@ module.exports = function JSONAPI(schemas, baseURL) {
      * - [included]    name:data pairs of flat objects from the databases to include in the response (if part of a relationship)
      * - [links]       Additional links to append to the `links` key
      * - [defaults]    Default key-value pairs to append to every returned item
+     * - [meta]        A 'meta' key to pass back to the client
      * @return {object}        A JSONAPI-compatible object to send back to the client
      */
     return function toJSONAPI(obj, info) {
